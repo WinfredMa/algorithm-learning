@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div class="algorithms-home">
+    <div className="algorithms-home">
       <RecoveryString />
     </div>
   )
