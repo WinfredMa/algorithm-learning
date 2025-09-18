@@ -19,22 +19,22 @@ const SetColor = () => {
             metrix.push(line.split(''))
         }
         for (let i = 0; i < m; i++) {
-            let tempArr = [];
+            let consecutiveWhite = 0;
             for (let j = 0; j < n; j++) {
                 if (metrix[j][i] === 'o') {
-                   tempArr.push(metrix[j][i])
+                    consecutiveWhite++
                 } else {
-                    if (tempArr.length) {
-                        whiteArr.push([...tempArr]);
-                        tempArr = [];
+                    if (consecutiveWhite > 1) {
+                        whiteArr.push(consecutiveWhite);
                     }
+                    consecutiveWhite = 0;
                 }
             }
-            if (tempArr.length) {
-                whiteArr.push([...tempArr]);
+            if (consecutiveWhite > 1) {
+                whiteArr.push(consecutiveWhite);
             }
         }
-        whiteArr.sort((a, b) => b.length - a.length);
+        whiteArr.sort((a, b) => b - a);
         let result = 0;
         // while(k>=0) { // Bad code. when k is big and whiteArr is small. the loop will never end.
         //     let temp = whiteArr.shift();
@@ -53,13 +53,10 @@ const SetColor = () => {
                 break;
             }
             let temp = whiteArr[i];
-            let diff = k - temp.length;
-            if (diff > 0) {
-                result += temp.length - 1;
-                k = diff;
-            } else {
-                result += k -1;
-                break;
+            let diff = Math.min(k, temp);
+            k -= diff;
+            if (diff > 1) {
+                result += diff - 1;
             }
         }
         return result;
