@@ -17,6 +17,28 @@ const AverageNumber = () => {
 
     return result;
   };
+
+  const algorithm2 = (numbers, average) => {
+    let minDiff = 255;
+    let newAverage = 0;
+    let result = 0;
+    for (let i = -127; i <= 128; i++) {
+      newAverage =
+        numbers.reduce(
+          (acc, num) => acc + Math.max(0, Math.min(255, num + i)),
+          0
+        ) / numbers.length;
+      let diff = Math.abs(newAverage - average);
+      if (diff < minDiff) {
+        minDiff = diff;
+        result = i;
+      } else if (diff === minDiff && result !== 0) {
+        result = Math.min(result, i);
+      }
+    }
+    return result;
+  };
+
   return (
     <div>
       {testData.map((test, index) => {
@@ -25,7 +47,7 @@ const AverageNumber = () => {
             <p>numbers: {test.numbers}</p>
             <p>average: {test.average}</p>
             <p>expected: {test.expected}</p>
-            <p>result: {algorithm(test.numbers, test.average)}</p>
+            <p>result: {algorithm2(test.numbers, test.average)}</p>
           </div>
         );
       })}
